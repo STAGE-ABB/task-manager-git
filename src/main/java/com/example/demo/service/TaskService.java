@@ -1,21 +1,33 @@
 package com.example.demo.service;
 
 import com.example.demo.entity.Task;
+import com.example.demo.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class TaskService {
 
-    private final List<Task> tasks = new ArrayList<>();
+    private final TaskRepository repository;
 
-    public List<Task> getAllTasks() {
-        return tasks;
+    public TaskService(TaskRepository repository) {
+        this.repository = repository;
     }
 
-    public void addTask(Task task) {
-        tasks.add(task);
+    public List<Task> getAll() {
+        return repository.findAll();
+    }
+
+    public Task save(Task task) {
+        return repository.save(task);
+    }
+
+    public Task getById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
+
+    public void delete(Long id) {
+        repository.deleteById(id);
     }
 }

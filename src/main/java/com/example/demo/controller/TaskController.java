@@ -17,13 +17,28 @@ public class TaskController {
     }
 
     @GetMapping
-    public List<Task> getTasks() {
-        return service.getAllTasks();
+    public List<Task> getAllTasks() {
+        return service.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public Task getById(@PathVariable Long id) {
+        return service.getById(id);
     }
 
     @PostMapping
-    public String addTask(@RequestBody Task task) {
-        service.addTask(task);
-        return "Task added successfully";
+    public Task create(@RequestBody Task task) {
+        return service.save(task);
+    }
+
+    @PutMapping("/{id}")
+    public Task update(@PathVariable Long id, @RequestBody Task task) {
+        task.setId(id);
+        return service.save(task);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        service.delete(id);
     }
 }
